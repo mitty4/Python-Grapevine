@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Write a Message</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script type="text/javascript">
+
+	</script>
+</head>
+<body class="container-fluid">
+
+	<div class=" col-xs-12 col-md-10 well">
+	 	<h1 class="text-center">Leave a Message</h1>
+		<a href="/logoff" class="pull-right">logoff</a>
+	</div>	
+
+
+ 	<form class="col-xs-8 pull-right" action="/message" method="POST">
+ 		<input class="col-xs-8" type="text" name="message">
+ 		<input class="col-xs-1 btn-primary" type="submit" name="post" value="Post">
+ 	</form>
+
+ 	{% if rows %}
+ 		<h2 class="col-xs-12 text-center col-md-6 ">What's the word in the Grapevine...</h2>
+		{% with messages = get_flashed_messages() %}
+			{% if messages %}
+				{% for message in messages %}
+					<p class="text-danger col-xs-12">*{{message}}</p>
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+
+ 		{% for row in rows %}
+
+ 			<div class="col-xs-8{% if rows.index(row) % 2 %}
+ 			well
+ 		{% endif %}">
+	 			<h4 class="col-xs-12"><span class="text-primary">{{row['first_name']}} {{row['last_name']}}</span> says:</h4>
+	 			<p class="primary col-xs-12">{{row['meassage']}} <i>({{row['created_at']}}) </i>
+
+				{% if current == row['first_name'] %}
+		 			<a class="text-danger" href="/delete/{{row['id']}}">delete</a>
+		 		{% endif %}
+
+	 			</p>
+
+		 	</div>	
+
+ 		{% endfor %}
+ 	{% endif %}
+
+</body>
+</html>
